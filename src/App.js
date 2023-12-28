@@ -1,64 +1,35 @@
-import React, { useEffect } from "react"
-import { io } from "socket.io-client"
+import React, { useEffect, useContext } from "react"
+import { SocketContext } from "./context/SocketContext"
 import BandAdd from "./components/BandAdd"
 import BandList from "./components/BandList"
-
-const connectSocketServer = () => {
-  const socket = io.connect("http://localhost:8080", {
-    transports: ["websocket"],
-  })
-  return socket
-}
+import { useSocket } from "./hooks/useSocket"
 
 const App = () => {
-  const [socket] = React.useState(connectSocketServer())
-  const [online, setOnline] = React.useState(false)
   const [bands, setBands] = React.useState([])
 
-  useEffect(() => {
-    console.log(socket)
-    setOnline(socket.connected)
-  }, [socket])
+  const { online } = useContext(SocketContext)
 
-  useEffect(() => {
-    socket.on("connect", () => {
-      setOnline(true)
-    })
-  }, [socket])
+  // useEffect(() => {
+  //   socket.on("current-bands", (bands) => {
+  //     console.log({ bands })
+  //     setBands(bands)
+  //   })
+  // }, [socket])
 
-  // create the disconnect version of the useEffect
-  useEffect(() => {
-    socket.on("disconnect", () => {
-      setOnline(false)
-    })
-  }, [socket])
+  // const votar = (id) => {
+  //   console.log("votar", id)
+  //   socket.emit("votar-banda", id)
+  // }
 
-  useEffect(() => {
-    socket.on("current-bands", (bands) => {
-      console.log({ bands })
-      setBands(bands)
-    })
-  }, [socket])
+  // const borrar = (id) => {
+  //   console.log("borrar", id)
+  //   socket.emit("borrar-banda", id)
+  // }
 
-  const votar = (id) => {
-    console.log("votar", id)
-    socket.emit("votar-banda", id)
-  }
-
-  const borrar = (id) => {
-    console.log("borrar", id)
-    socket.emit("borrar-banda", id)
-  }
-
-  const cambiarNombre = (id, nombre) => {
-    console.log("cambiarNombre", id, nombre)
-    socket.emit("cambiar-nombre-banda", { id, nombre })
-  }
-
-  const crearBanda = (nombre) => {
-    console.log("crearBanda", nombre)
-    socket.emit("nueva-banda", { nombre: nombre })
-  }
+  // const cambiarNombre = (id, nombre) => {
+  //   console.log("cambiarNombre", id, nombre)
+  //   socket.emit("cambiar-nombre-banda", { id, nombre })
+  // }
 
   return (
     <div className="container">
@@ -78,16 +49,14 @@ const App = () => {
 
       <div className="row">
         <div className="col-8">
-          <BandList
+          {/* <BandList
             data={bands}
             votar={votar}
             borrar={borrar}
             cambiarNombre={cambiarNombre}
-          />
+          /> */}
         </div>
-        <div className="col-4">
-          <BandAdd crearBanda={crearBanda} />
-        </div>
+        <div className="col-4">{/* <BandAdd /> */}</div>
       </div>
     </div>
   )
