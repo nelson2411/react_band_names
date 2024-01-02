@@ -2,34 +2,10 @@ import React, { useEffect, useContext } from "react"
 import { SocketContext } from "./context/SocketContext"
 import BandAdd from "./components/BandAdd"
 import BandList from "./components/BandList"
-import { useSocket } from "./hooks/useSocket"
+import BandsChart from "./components/BandsChart"
 
 const App = () => {
-  const [bands, setBands] = React.useState([])
-
   const { online } = useContext(SocketContext)
-
-  // useEffect(() => {
-  //   socket.on("current-bands", (bands) => {
-  //     console.log({ bands })
-  //     setBands(bands)
-  //   })
-  // }, [socket])
-
-  // const votar = (id) => {
-  //   console.log("votar", id)
-  //   socket.emit("votar-banda", id)
-  // }
-
-  // const borrar = (id) => {
-  //   console.log("borrar", id)
-  //   socket.emit("borrar-banda", id)
-  // }
-
-  // const cambiarNombre = (id, nombre) => {
-  //   console.log("cambiarNombre", id, nombre)
-  //   socket.emit("cambiar-nombre-banda", { id, nombre })
-  // }
 
   return (
     <div className="container">
@@ -44,19 +20,21 @@ const App = () => {
         </p>
       </div>
 
-      <h1>BandNames</h1>
-      <hr />
+      <h1 className="my-2">BandNames</h1>
+
+      <div className="row">
+        <div className="col">
+          <BandsChart height={300} />
+        </div>
+      </div>
 
       <div className="row">
         <div className="col-8">
-          {/* <BandList
-            data={bands}
-            votar={votar}
-            borrar={borrar}
-            cambiarNombre={cambiarNombre}
-          /> */}
+          <BandList />
         </div>
-        <div className="col-4">{/* <BandAdd /> */}</div>
+        <div className="col-4">
+          <BandAdd />{" "}
+        </div>
       </div>
     </div>
   )

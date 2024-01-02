@@ -1,9 +1,9 @@
 import React from "react"
-import { useSocket } from "../hooks/useSocket"
+import { SocketContext } from "../context/SocketContext"
 
 const BandAdd = () => {
   const [valor, setValor] = React.useState("")
-  const { socket } = useSocket("http://localhost:8080")
+  const { socket } = React.useContext(SocketContext)
 
   const onSubmit = (event) => {
     event.preventDefault()
