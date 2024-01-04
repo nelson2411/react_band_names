@@ -56,7 +56,7 @@ const BandsChart = () => {
     })
   }
 
-  return <canvas id="myChart"></canvas>
+  return <canvas id="myChart" width="500" height="400"></canvas>
 }
 
 export default BandsChart
